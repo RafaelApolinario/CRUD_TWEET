@@ -1,0 +1,7 @@
+PUT http://localhost:3333/tweets/32d0cf7f-c766-4689-9436-31059ca1f0b7 HTTP/1.1
+content-type: application/json
+Authorization: 0d2a6d86-c373-426a-9d3b-6c8648e44251
+
+{
+    "content": "mudei o tweet"
+}

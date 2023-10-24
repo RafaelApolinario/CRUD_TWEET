@@ -1,0 +1,2 @@
+GET http://localhost:3333/tweets HTTP/1.1
+Authorization: 0d2a6d86-c373-426a-9d3b-6c8648e44251

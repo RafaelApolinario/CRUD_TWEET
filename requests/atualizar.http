@@ -1,0 +1,9 @@
+PUT http://localhost:3333/usuarios/f2adee0e-7595-449b-99fb-214b4ec46050 HTTP/1.1
+content-type: application/json
+Authorization: bfede27a-c07b-40f3-bc92-8a9410c88e3f
+
+{
+    "nome": "Krabbe",
+    "usuario": "jkrabbe",
+    "senha": "123456"
+}

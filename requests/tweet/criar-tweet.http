@@ -1,0 +1,8 @@
+POST http://localhost:3333/tweets/f2adee0e-7595-449b-99fb-214b4ec46050 HTTP/1.1
+Authorization: 0d2a6d86-c373-426a-9d3b-6c8648e44251
+content-type: application/json
+
+{
+    "content": "teste1234",
+    "type": "tweet"
+}

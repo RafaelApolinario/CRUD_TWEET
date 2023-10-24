@@ -1,0 +1,2 @@
+DELETE http://localhost:3333/usuarios/e36fd45a-7c5e-45a6-b51e-369b7ed88a84 HTTP/1.1
+Authorization: 440cd843-1eb7-4bc3-bb0e-782f9a73bd32

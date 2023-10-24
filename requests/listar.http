@@ -1,0 +1,2 @@
+GET http://localhost:3333/usuarios HTTP/1.1
+Authorization: 9f7baea6-8647-4ffb-b1bf-88cf8da1baf3
