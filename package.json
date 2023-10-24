@@ -20,7 +20,9 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "build": "tsc",
-    "start": "node ./dist/server.js"
+    "build": "yarn && tsc && yarn prisma:deploy",
+    "start": "node ./dist/server.js",
+    "postinstall": "prisma generate",
+    "prisma:deploy" : "prisma migrate deploy"
   } 
 }
