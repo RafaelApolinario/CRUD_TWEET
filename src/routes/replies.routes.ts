@@ -16,29 +16,5 @@ export function replieRoutes() {
     controller.criar
   );
 
-  //LISTAR TODOS
-  router.get("/", [auth.validar], controller.listar);
-
-  //LISTAR POR ID
-  router.get(
-    "/:id",
-    [auth.validar, validarFormatoId.validar],
-    controller.listPorID
-  );
-
-  //ATUALIZAR
-  router.put(
-    "/:id",
-    [auth.validar, validarFormatoId.validar],
-    controller.atualizar
-  );
-
-  //DELETAR
-  router.delete(
-    "/:id",
-    [auth.validar, validarFormatoId.validar],
-    controller.deletar
-  );
-
   return router;
 }

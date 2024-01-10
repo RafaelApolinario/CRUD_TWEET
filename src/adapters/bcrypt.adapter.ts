@@ -16,6 +16,5 @@ export class BcryptAdapter {
     public async compararHash(senha: string, hash: string): Promise<boolean>{
         const corresponde = await bcrypt.compare(senha, hash);
         return corresponde;
-
     }
 }

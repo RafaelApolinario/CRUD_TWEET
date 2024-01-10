@@ -36,22 +36,22 @@ export class UsuarioController {
     }
   }
 
-  public async logout(req: Request, res: Response) {
-    try {
-      const { idUsuario } = req.body;
+  // public async logout(req: Request, res: Response) {
+  //   try {
+  //     const { idUsuario } = req.body;
 
-      const service = new UsuarioService();
-      const response = await service.logout(idUsuario);
+  //     const service = new UsuarioService();
+  //     const response = await service.logout(idUsuario);
 
-      return res.status(response.code).json(response);
-    } catch (error: any) {
-      return res.status(500).json({
-        code: 500,
-        ok: false,
-        mensagem: error.toString(),
-      });
-    }
-  }
+  //     return res.status(response.code).json(response);
+  //   } catch (error: any) {
+  //     return res.status(500).json({
+  //       code: 500,
+  //       ok: false,
+  //       mensagem: error.toString(),
+  //     });
+  //   }
+  // }
 
   public async listar(_: Request, res: Response) {
     try {

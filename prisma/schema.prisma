@@ -54,9 +54,11 @@ model Tweets {
 
   likes         Likes[]
   retweets      Retweets[]
-  replies       Tweets[]   @relation("RepliesToParentTweet") 
-  parentTweet   Tweets?    @relation("RepliesToParentTweet", fields: [parentTweetId], references: [id]) 
-  parentTweetId String?    @map("parent_tweet_id") @db.Uuid 
+ 
+  replies  Tweets[]   @relation("replies")
+  tweets   Tweets?    @relation("replies", fields: [tweetsId], references: [id])
+  tweetsId String?    @db.Uuid
+
 
   @@map("tweets")
 }

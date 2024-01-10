@@ -1,7 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express, { Request, Response } from "express";
-import { likeRoutes, tweetRoutes, usuarioRoutes } from "./routes";
+import { likeRoutes, replieRoutes, tweetRoutes, usuarioRoutes } from "./routes";
 import { envs } from "./envs";
 import { docsRoute } from "./docs/config-swagger";
 
@@ -18,7 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/usuarios", usuarioRoutes());
 app.use("/tweets", tweetRoutes());
 app.use("/likes", likeRoutes());
-// app.use("/replies", repliRoutes())
+app.use("/replies", replieRoutes());
 app.use("/docs", docsRoute())
 
 
