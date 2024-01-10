@@ -11,6 +11,9 @@ import {
   ResponseDTO,
 } from "../dtos";
 import { Tweet, Usuario } from "../models";
+import { envs } from "../envs";
+import { BcryptAdapter, JWTAdapter } from "../adapters";
+import { hash } from "bcrypt";
 
 export class UsuarioService {
   public async cadastrar(dados: CadastrarUsuarioDTO): Promise<ResponseDTO> {
@@ -26,12 +29,16 @@ export class UsuarioService {
       };
     }
 
+    // ENCRIPTOGRAFAR A SENHA
+    const bcrypt = new BcryptAdapter(Number(envs.BCRYPT_SALT));
+    const hash = await bcrypt.gerarHash(dados.senha);
+
     const usuarioDB = await repository.usuarios.create({
       data: {
         nome: dados.nome,
         usuario: dados.usuario,
         email: dados.email,
-        senha: dados.senha,
+        senha: hash,
       },
     });
 
@@ -66,7 +73,6 @@ export class UsuarioService {
     const usuarioEncontrado = await repository.usuarios.findUnique({
       where: {
         email: dados.email,
-        senha: dados.senha,
       },
     });
 
@@ -78,42 +84,30 @@ export class UsuarioService {
       };
     }
 
-    const token = randomUUID();
+    const bcrypt = new BcryptAdapter(envs.BCRYPT_SALT);
+    const hashSenha = bcrypt.compararHash(dados.senha, usuarioEncontrado.senha);
 
-    await repository.usuarios.update({
-      where: { id: usuarioEncontrado.id },
-      data: { auth_token: token },
-    });
+    if (!hashSenha) {
+      return {
+        code: 401,
+        ok: false,
+        mensagem: "Credenciais inválidas",
+      };
+    }
+    const usuario = {
+      id: usuarioEncontrado.id,
+      nome: usuarioEncontrado.nome,
+      email: usuarioEncontrado.email
+    }
+    const jwt = new JWTAdapter(envs.JWT_SECRET_KEY, envs.JWT_EXPIRE_IN);
+    const token = jwt.gerarToken(usuario);
 
     return {
       code: 200,
       ok: true,
       mensagem: "Login efetuado",
-      dados: { token },
+      dados: { token, usuario },
     };
-  }
-
-  public async logout(idUsuario: string): Promise<ResponseDTO> {
-    await repository.usuarios.update({
-      where: { id: idUsuario },
-      data: { auth_token: null },
-    });
-
-    return {
-      code: 200,
-      ok: true,
-      mensagem: "Usuario deslogado com sucesso",
-    };
-  }
-
-  public async validarToken(token: string): Promise<string | null> {
-    const usuarioEncontrado = await repository.usuarios.findFirst({
-      where: { auth_token: token },
-    });
-
-    if (!usuarioEncontrado) return null;
-
-    return usuarioEncontrado.id;
   }
 
   public async listar(): Promise<ResponseDTO> {

@@ -1,89 +1,92 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Usuarios {
-    id String @db.Uuid @id @default(uuid())
-    nome String @db.VarChar(255)
-    usuario String @db.VarChar(255) @unique
-    email String @db.VarChar(150) @unique
-    senha String @db.Text
-    auth_token String? @db.Text
-    criadoEm DateTime @db.Timestamp() @default(now()) @map("criado_em")
-    atualizadoEm DateTime @db.Timestamp() @updatedAt @map("atualizado_em")
+  id           String   @id @default(uuid()) @db.Uuid
+  nome         String   @db.VarChar(255)
+  usuario      String   @unique @db.VarChar(255)
+  email        String   @unique @db.VarChar(150)
+  senha        String   @db.Text
+  auth_token   String?  @db.Text
+  criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
-    seguidores Seguidores[] @relation("seguidores")
-    seguindo Seguidores[] @relation("seguindo")
-    tweets Tweets[]
-    likes Likes?
-    retweets Retweets[]
+  seguidores Seguidores[] @relation("seguidores")
+  seguindo   Seguidores[] @relation("seguindo")
+  tweets     Tweets[]
+  likes      Likes?
+  retweets   Retweets[]
 
-    @@map("usuarios")
+  @@map("usuarios")
 }
 
 model Seguidores {
-    id String @db.Uuid @id @default(uuid())
+  id String @id @default(uuid()) @db.Uuid
 
-    usuarioId String @db.Uuid @map("usuario_id")
-    usuario Usuarios @relation("seguindo", fields: [usuarioId], references: [id])
+  usuarioId String   @map("usuario_id") @db.Uuid
+  usuario   Usuarios @relation("seguindo", fields: [usuarioId], references: [id])
 
-    seguidorId String @db.Uuid @map("seguidor_id")
-    seguidor Usuarios @relation("seguidores", fields: [seguidorId], references: [id])
+  seguidorId String   @map("seguidor_id") @db.Uuid
+  seguidor   Usuarios @relation("seguidores", fields: [seguidorId], references: [id])
 
-    criadoEm DateTime @db.Timestamp() @default(now()) @map("criado_em")
-    atualizadoEm DateTime @db.Timestamp() @updatedAt @map("atualizado_em")
+  criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
-    @@map("seguidores")
+  @@map("seguidores")
 }
 
 model Tweets {
-    id String @db.Uuid @id @default(uuid())
-    content String @db.VarChar(400)
-    type String @db.VarChar(8)
+  id      String @id @default(uuid()) @db.Uuid
+  content String @db.VarChar(400)
+  type    String @db.VarChar(8)
 
-    usuarioId String @db.Uuid @map("usuario_id")
-    usuario Usuarios @relation(fields: [usuarioId], references: [id])
+  usuarioId String   @map("usuario_id") @db.Uuid
+  usuario   Usuarios @relation(fields: [usuarioId], references: [id])
 
-    criadoEm DateTime @db.Timestamp() @default(now()) @map("criado_em")
-    atualizadoEm DateTime @db.Timestamp() @updatedAt @map("atualizado_em")
+  criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
-    likes Likes[]
-    retweets Retweets[]
+  likes         Likes[]
+  retweets      Retweets[]
+  replies       Tweets[]   @relation("RepliesToParentTweet") 
+  parentTweet   Tweets?    @relation("RepliesToParentTweet", fields: [parentTweetId], references: [id]) 
+  parentTweetId String?    @map("parent_tweet_id") @db.Uuid 
 
-    @@map("tweets")
+  @@map("tweets")
 }
 
 model Likes {
-    id String @db.Uuid @id @default(uuid())
+  id String @id @default(uuid()) @db.Uuid
 
-    usuarioId String @db.Uuid @map("usuario_id") @unique
-    usuario Usuarios @relation(fields: [usuarioId], references: [id])
+  usuarioId String   @unique @map("usuario_id") @db.Uuid
+  usuario   Usuarios @relation(fields: [usuarioId], references: [id])
 
-    tweetId String @db.Uuid @map("tweet_id")
-    tweet Tweets @relation(fields: [tweetId], references: [id])
+  tweetId String @map("tweet_id") @db.Uuid
+  tweet   Tweets @relation(fields: [tweetId], references: [id])
 
-    criadoEm DateTime @db.Timestamp() @default(now()) @map("criado_em")
-    atualizadoEm DateTime @db.Timestamp() @updatedAt @map("atualizado_em")
+  criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
-    @@map("likes")
+  @@map("likes")
 }
 
 model Retweets {
-    id String @db.Uuid @id @default(uuid())
+  id String @id @default(uuid()) @db.Uuid
 
-    tweetId String @db.Uuid @map("tweet_id")
-    tweet Tweets @relation(fields: [tweetId], references: [id])
+  tweetId String @map("tweet_id") @db.Uuid
+  tweet   Tweets @relation(fields: [tweetId], references: [id])
 
-    usuarioId String @db.Uuid @map("usuario_id") @unique
-    usuario Usuarios @relation(fields: [usuarioId], references: [id])
+  usuarioId String   @unique @map("usuario_id") @db.Uuid
+  usuario   Usuarios @relation(fields: [usuarioId], references: [id])
 
-    criadoEm DateTime @db.Timestamp() @default(now()) @map("criado_em")
-    atualizadoEm DateTime @db.Timestamp() @updatedAt @map("atualizado_em")
+  criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
-    @@map("retweets")
+  @@map("retweets")
 }

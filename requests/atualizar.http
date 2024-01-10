@@ -1,9 +1,9 @@
 PUT http://localhost:3333/usuarios/f2adee0e-7595-449b-99fb-214b4ec46050 HTTP/1.1
 content-type: application/json
-Authorization: bfede27a-c07b-40f3-bc92-8a9410c88e3f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI1OTAwYjRiLWUyNzQtNDFmZC1iMmUyLWE4MjdlNTk4ZDhiMiIsIm5vbWUiOiJqb2FuYSIsInVzdWFyaW8iOiJqb2FuYVRlc3RlIiwiZW1haWwiOiJqb2FuYUB0ZXN0ZS5jb20iLCJzZW5oYSI6ImpvYW5hNDU2IiwiYXV0aF90b2tlbiI6bnVsbCwiY3JpYWRvRW0iOiIyMDIzLTEyLTIwVDIyOjQyOjU0LjQ5N1oiLCJhdHVhbGl6YWRvRW0iOiIyMDIzLTEyLTIwVDIyOjQyOjU0LjQ5N1oiLCJpYXQiOjE3MDMxMTY2NDcsImV4cCI6MTcwMzEyMDI0N30.RRfvHpvh-vxgIRnR6DasXldwcTsVUjo0bEnB6jEOXVM
 
 {
-    "nome": "Krabbe",
-    "usuario": "jkrabbe",
-    "senha": "123456"
+    "nome": "joana",
+    "usuario": "joanaTeste",
+    "senha": "joana456"
 }

@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { TweetController } from "../controllers/tweet.controller";
+import { RepliesController } from "../controllers/replies.controller";
 import { Auth, ValidarFormatoId, VerificarIdUsuario } from "../middlewares";
 
-export function tweetRoutes() {
+export function replieRoutes() {
   const router = Router();
-  const controller = new TweetController();
+  const controller = new RepliesController();
   const validarFormatoId = new ValidarFormatoId();
   const verificarIdUsuario = new VerificarIdUsuario();
   const auth = new Auth();
 
   //CRIAR
   router.post(
-    "/",
-    [auth.validar],
+    "/:id",
+    [auth.validar, validarFormatoId.validar, verificarIdUsuario.validar],
     controller.criar
   );
 

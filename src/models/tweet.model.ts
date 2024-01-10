@@ -5,7 +5,8 @@ export class Tweet {
 	  private _id: string,
 	  private _content: string,
 	  private _type: string,
-	  private _likes?: Like[]
+	  private _likes?: Like[],
+	  private _replies?: Tweet[]
 	) {}
   
 	public get id(): string {
@@ -22,6 +23,10 @@ export class Tweet {
 
 	public get likes(): Like[] | undefined {
       return this._likes;
+    }
+
+	public get replies(): Tweet[] | undefined {
+      return this._replies;
     }
   
 	public toJSON() {

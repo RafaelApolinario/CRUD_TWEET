@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
-import { TweetService } from "../services";
+import { RepliesService } from "../services";
 
-export class TweetController {
+export class RepliesController {
   public async criar(req: Request, res: Response) {
     try {
       const { content, type } = req.body;
-      const {id} = req.authUsuario;
-      const service = new TweetService();
-      const response = await service.criar({ content, type }, id);
+      const usuarioID = req.params;
+
+      const service = new RepliesService();
+      const response = await service.criar({ content, type }, usuarioID.id);
 
       return res.status(response.code).json(response);
     } catch (error: any) {
@@ -19,11 +20,10 @@ export class TweetController {
     }
   }
 
-  public async listar(req: Request, res: Response) {
+  public async listar(_: Request, res: Response) {
     try {
-      const {id} = req.authUsuario;
-      const service = new TweetService();
-      const response = await service.listar(id);
+      const service = new RepliesService();
+      const response = await service.listar();
 
       return res.status(response.code).json(response);
     } catch (error: any) {
@@ -38,7 +38,7 @@ export class TweetController {
   public async listPorID(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const service = new TweetService();
+      const service = new RepliesService();
 
       const response = await service.listarPorID(id);
 
@@ -57,7 +57,7 @@ export class TweetController {
       const { content } = req.body;
       const { id } = req.params;
 
-      const service = new TweetService();
+      const service = new RepliesService();
       const response = await service.atualizar(
         {
           content,
@@ -78,7 +78,7 @@ export class TweetController {
   public async deletar(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const service = new TweetService();
+      const service = new RepliesService();
 
       const response = await service.deletar(id);
 

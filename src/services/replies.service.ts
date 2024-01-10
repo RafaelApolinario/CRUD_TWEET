@@ -6,7 +6,18 @@ import { CriarTweetDTO } from "../dtos/criar-tweet.dto";
 import { Tweet } from "../models";
 import { Like } from "../models/like.model";
 
-export class TweetService {
+export class RepliesService {
+  private async mapToModel(
+    TweetDB: TweetsPrisma & { likes: LikesPrisma[] | null }
+  ): Promise<Tweet> {
+    const likesTweet = TweetDB?.likes
+      ? TweetDB.likes.map((LikesDB) => new Like(
+        LikesDB.id))
+      : undefined;
+
+    return new Tweet(TweetDB.id, TweetDB.content, TweetDB.type, likesTweet);
+  }
+
   public async criar(
     dados: CriarTweetDTO,
     usuarioId: string
@@ -15,8 +26,7 @@ export class TweetService {
       data: {
         content: dados.content,
         type: dados.type,
-        // usuario: { connect: { id: usuarioId } },
-        usuarioId: usuarioId
+        usuario: { connect: { id: usuarioId } },
       },
       include: {
         likes: true,
@@ -31,9 +41,8 @@ export class TweetService {
     };
   }
 
-  public async listar(idUsuario: string): Promise<ResponseDTO> {
+  public async listar(): Promise<ResponseDTO> {
     const tweetsDB = await repository.tweets.findMany({
-      where: {usuarioId: idUsuario},
       orderBy: { criadoEm: "desc" },
       include: {
         likes: true,
@@ -116,16 +125,5 @@ export class TweetService {
       mensagem: "Tweet excluido",
       dados: this.mapToModel(tweetExcluido),
     };
-  }
-
-  private mapToModel(
-    TweetDB: TweetsPrisma & { likes: LikesPrisma[] | null }
-  ): Tweet {
-    const likesTweet = TweetDB?.likes
-      ? TweetDB.likes.map((LikesDB) => new Like(
-        LikesDB.id))
-      : undefined;
-
-    return new Tweet(TweetDB.id, TweetDB.content, TweetDB.type, likesTweet);
   }
 }

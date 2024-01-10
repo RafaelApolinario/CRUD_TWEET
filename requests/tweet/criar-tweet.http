@@ -1,5 +1,5 @@
-POST http://localhost:3333/tweets/f2adee0e-7595-449b-99fb-214b4ec46050 HTTP/1.1
-Authorization: 0d2a6d86-c373-426a-9d3b-6c8648e44251
+POST http://localhost:3333/tweets HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllMmViNzllLWUyNzYtNGE0Ni04NDQ1LTE3ODc1ODk4OWZhYiIsIm5vbWUiOiJqb2FuYSIsImVtYWlsIjoiam9hbmFAdGVzdGUuY29tIiwiaWF0IjoxNzA0NzYyNDI3LCJleHAiOjE3MDQ3NjYwMjd9.pokQQOwmfAoUrlVf8UaI7GkxiPQVrw7rI9zKk1hzKVo
 content-type: application/json
 
 {
