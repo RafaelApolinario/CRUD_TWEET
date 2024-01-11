@@ -22,6 +22,7 @@ model Usuarios {
   tweets     Tweets[]
   likes      Likes?
   retweets   Retweets[]
+  replies    Reply[]
 
   @@map("usuarios")
 }
@@ -52,15 +53,27 @@ model Tweets {
   criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
   atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
-  likes         Likes[]
-  retweets      Retweets[]
- 
-  replies  Tweets[]   @relation("replies")
-  tweets   Tweets?    @relation("replies", fields: [tweetsId], references: [id])
-  tweetsId String?    @db.Uuid
-
+  likes    Likes[]
+  retweets Retweets[]
+  replies  Reply[]
 
   @@map("tweets")
+}
+
+model Reply {
+  id      String @id @default(uuid()) @db.Uuid
+  content String @db.VarChar(400)
+
+  tweets   Tweets? @relation(fields: [tweetsId], references: [id])
+  tweetsId String? @db.Uuid
+
+  usuarios   Usuarios? @relation(fields: [usuariosId], references: [id])
+  usuariosId String?   @db.Uuid
+
+  criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
+  atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
+
+  @@map("replies")
 }
 
 model Likes {

@@ -1,3 +1,4 @@
-export * from './usuario.contoller';
-export * from './tweet.controller'
-export * from './replies.controller'
+export * from "./reply.controller";
+export * from "./seguidorController.controller";
+export * from "./tweet.controller";
+export * from "./usuario.contoller";

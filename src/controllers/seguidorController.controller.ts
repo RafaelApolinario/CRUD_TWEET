@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
-import { LikeService } from "../services";
+import { SeguidorService } from "../services";
 
-export class LikeController {
+export class SeguidorController {
   public async criar(req: Request, res: Response) {
     try {
       const usuarioId = req.params;
-      const { tweetId } = req.body;
-      const service = new LikeService();
-      const response = await service.criar({ tweetId }, usuarioId.id);
+      const { seguidorId } = req.body;
+
+      const service = new SeguidorService();
+      const response = await service.criar({ seguidorId }, usuarioId.id);
+
       return res.status(response.code).json(response);
     } catch (error: any) {
       return res.status(500).json({
@@ -21,7 +23,7 @@ export class LikeController {
   public async deletar(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const service = new LikeService();
+      const service = new SeguidorService();
 
       const response = await service.deletar(id);
 
