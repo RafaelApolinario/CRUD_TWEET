@@ -1,6 +1,7 @@
-// import {  } from './components';
-// import {  } from './paths';
-// import {  } from './schemas';
+import { badRequest, notFound, securitySchemes, serverError, unauthorized } from './components';
+import { likePath } from './paths/like.path';
+import { likeSchema } from './schemas/like.schema';
+import { error } from './schemas/error.schema';
 
 const docs = {
     openapi: "3.0.0",
@@ -21,19 +22,19 @@ const docs = {
     paths: {
         '/usuarios': {},
         '/tweets': {},
-        '/likes': {},
+        '/likes': likePath,
         // '/replies': {}
     },
     components: {
-        badRequest: {},
-        notFound: {},
-        unauthorized: {},
-        serverError: {},
-        securitySchemes: {}
+        badRequest: badRequest,
+        notFound: notFound,
+        unauthorized: unauthorized,
+        serverError: serverError,
+        securitySchemes: securitySchemes
     },
     schemas: {
-        error: {},
-        usuario: {},
+        error: error,
+        like: likeSchema,
         avalicao: {},
     }
 }

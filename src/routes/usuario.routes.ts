@@ -25,8 +25,6 @@ export function usuarioRoutes() {
   //LOGOUT
   router.delete("/logout");
   router.post('/login', [login.validar], controller.login);
-	router.post('/logout', [auth.validar], controller.logout);
-
 
   return router;
 }
