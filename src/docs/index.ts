@@ -22,7 +22,7 @@ const docs = {
     paths: {
         '/usuarios': {},
         '/tweets': {},
-        '/likes': likePath,
+        '/likes/:id': likePath,
         // '/replies': {}
     },
     components: {
