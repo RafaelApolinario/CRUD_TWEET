@@ -73,6 +73,8 @@ model Reply {
   criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
   atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
 
+  likes Likes[]
+
   @@map("replies")
 }
 
@@ -87,6 +89,8 @@ model Likes {
 
   criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
   atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
+  Reply        Reply?   @relation(fields: [replyId], references: [id])
+  replyId      String?  @db.Uuid
 
   @@map("likes")
 }

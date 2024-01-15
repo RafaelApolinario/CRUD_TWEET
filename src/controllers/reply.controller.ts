@@ -4,14 +4,11 @@ import { ReplyService } from "../services";
 export class RepliesController {
   public async criar(req: Request, res: Response) {
     try {
-      const { content, type, tweetId } = req.body;
+      const { content, tweetId } = req.body;
       const usuarioID = req.params;
 
       const service = new ReplyService();
-      const response = await service.criar(
-        { content, type, tweetId },
-        usuarioID.id
-      );
+      const response = await service.criar({ content, tweetId }, usuarioID.id);
 
       return res.status(response.code).json(response);
     } catch (error: any) {

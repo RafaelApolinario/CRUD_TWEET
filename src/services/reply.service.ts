@@ -1,35 +1,31 @@
-import { Likes as LikesPrisma, Tweets as TweetsPrisma } from "@prisma/client";
+import { Likes as LikesPrisma, Reply as ReplyPrisma } from "@prisma/client";
 import repository from "../database/prisma.connection";
 import { AtualizarTweetDTO, CriarReplyDTO, ResponseDTO } from "../dtos";
-import { Tweet } from "../models";
 import { Like } from "../models/like.model";
+import { Reply } from "../models/reply.model";
 
 export class ReplyService {
   private mapToModel(
-    TweetDB: TweetsPrisma & { likes: LikesPrisma[] | null }
-  ): Tweet {
-    const likesTweet = TweetDB?.likes
-      ? TweetDB.likes.map((LikesDB) => new Like(LikesDB.id))
+    ReplyDB: ReplyPrisma & { likes: LikesPrisma[] | null }
+  ): Reply {
+    const likesTweet = ReplyDB?.likes
+      ? ReplyDB.likes.map((LikesDB) => new Like(LikesDB.id))
       : undefined;
 
-    return new Tweet(TweetDB.id, TweetDB.content, TweetDB.type, likesTweet);
+    return new Reply(ReplyDB.id, ReplyDB.content, likesTweet);
   }
 
   public async criar(
     dados: CriarReplyDTO,
     usuarioId: string
   ): Promise<ResponseDTO> {
-    const tweetDB = await repository.tweets.create({
+    const replyDB = await repository.reply.create({
       data: {
         content: dados.content,
-        type: dados.type,
-        usuario: { connect: { id: usuarioId } },
-        replies: { connect: { id: dados.tweetId } },
+        tweetsId: dados.tweetId,
+        usuariosId: usuarioId,
       },
-      include: {
-        likes: true,
-        replies: true,
-      },
+      include: {},
     });
 
     return {
