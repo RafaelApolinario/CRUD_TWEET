@@ -84,12 +84,12 @@ model Likes {
   usuarioId String   @unique @map("usuario_id") @db.Uuid
   usuario   Usuarios @relation(fields: [usuarioId], references: [id])
 
-  tweetId String @map("tweet_id") @db.Uuid
-  tweet   Tweets @relation(fields: [tweetId], references: [id])
+  tweetId String? @map("tweet_id") @db.Uuid
+  tweet   Tweets? @relation(fields: [tweetId], references: [id])
 
   criadoEm     DateTime @default(now()) @map("criado_em") @db.Timestamp()
   atualizadoEm DateTime @updatedAt @map("atualizado_em") @db.Timestamp()
-  Reply        Reply?   @relation(fields: [replyId], references: [id])
+  reply        Reply?   @relation(fields: [replyId], references: [id])
   replyId      String?  @db.Uuid
 
   @@map("likes")

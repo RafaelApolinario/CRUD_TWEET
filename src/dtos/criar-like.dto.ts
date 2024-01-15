@@ -1,3 +1,4 @@
-export interface CriarLikeDTO{
-    tweetId: string;
+export interface CriarLikeDTO {
+  tweetId: string;
+  isReply: boolean;
 }

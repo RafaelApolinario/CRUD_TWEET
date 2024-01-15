@@ -1,10 +1,14 @@
-import { Tweets as TweetsPrisma } from "@prisma/client";
-import { Likes as LikesPrisma } from "@prisma/client";
+import {
+  Likes as LikesPrisma,
+  Reply as ReplyPrisma,
+  Tweets as TweetsPrisma,
+} from "@prisma/client";
 import repository from "../database/prisma.connection";
 import { AtualizarTweetDTO, ResponseDTO } from "../dtos";
 import { CriarTweetDTO } from "../dtos/criar-tweet.dto";
 import { Tweet } from "../models";
 import { Like } from "../models/like.model";
+import { Reply } from "../models/reply.model";
 
 export class TweetService {
   public async criar(
@@ -15,11 +19,11 @@ export class TweetService {
       data: {
         content: dados.content,
         type: dados.type,
-        // usuario: { connect: { id: usuarioId } },
-        usuarioId: usuarioId
+        usuarioId: usuarioId,
       },
       include: {
         likes: true,
+        replies: true,
       },
     });
 
@@ -33,10 +37,11 @@ export class TweetService {
 
   public async listar(idUsuario: string): Promise<ResponseDTO> {
     const tweetsDB = await repository.tweets.findMany({
-      where: {usuarioId: idUsuario},
+      where: { usuarioId: idUsuario },
       orderBy: { criadoEm: "desc" },
       include: {
         likes: true,
+        replies: true,
       },
     });
 
@@ -63,6 +68,7 @@ export class TweetService {
       },
       include: {
         likes: true,
+        replies: true,
       },
     });
 
@@ -91,6 +97,7 @@ export class TweetService {
       data: { content: dados.content },
       include: {
         likes: true,
+        replies: true,
       },
     });
 
@@ -107,6 +114,7 @@ export class TweetService {
       where: { id: id },
       include: {
         likes: true,
+        replies: true,
       },
     });
 
@@ -119,13 +127,25 @@ export class TweetService {
   }
 
   private mapToModel(
-    TweetDB: TweetsPrisma & { likes: LikesPrisma[] | null }
+    TweetDB: TweetsPrisma & { likes: LikesPrisma[] | null } & {
+      replies: ReplyPrisma[] | null;
+    }
   ): Tweet {
     const likesTweet = TweetDB?.likes
-      ? TweetDB.likes.map((LikesDB) => new Like(
-        LikesDB.id))
+      ? TweetDB.likes.map((LikesDB) => new Like(LikesDB.id))
+      : undefined;
+    const repliesTweet = TweetDB?.replies
+      ? TweetDB.replies.map(
+          (ReplyDB) => new Reply(ReplyDB.id, ReplyDB.content, likesTweet)
+        )
       : undefined;
 
-    return new Tweet(TweetDB.id, TweetDB.content, TweetDB.type, likesTweet);
+    return new Tweet(
+      TweetDB.id,
+      TweetDB.content,
+      TweetDB.type,
+      likesTweet,
+      repliesTweet
+    );
   }
 }

@@ -25,14 +25,16 @@ export class ReplyService {
         tweetsId: dados.tweetId,
         usuariosId: usuarioId,
       },
-      include: {},
+      include: {
+        likes: true,
+      },
     });
 
     return {
       code: 201,
       ok: true,
       mensagem: "Reply criado!",
-      dados: this.mapToModel({ ...tweetDB }),
+      dados: this.mapToModel({ ...replyDB }),
     };
   }
 
@@ -40,12 +42,11 @@ export class ReplyService {
     dados: AtualizarTweetDTO,
     idTweet: string
   ): Promise<ResponseDTO> {
-    const tweetAtualizado = await repository.tweets.update({
+    const replyAtualizado = await repository.reply.update({
       where: { id: idTweet },
       data: { content: dados.content },
       include: {
         likes: true,
-        replies: true,
       },
     });
 
@@ -53,16 +54,15 @@ export class ReplyService {
       code: 200,
       ok: true,
       mensagem: "Reply atualizado",
-      dados: this.mapToModel(tweetAtualizado),
+      dados: this.mapToModel(replyAtualizado),
     };
   }
 
   public async deletar(id: string): Promise<ResponseDTO> {
-    const Reply = await repository.tweets.delete({
+    const reply = await repository.reply.delete({
       where: { id: id },
       include: {
         likes: true,
-        replies: true,
       },
     });
 
@@ -70,7 +70,7 @@ export class ReplyService {
       code: 200,
       ok: true,
       mensagem: "Reply excluido",
-      dados: this.mapToModel(Reply),
+      dados: this.mapToModel(reply),
     };
   }
 }

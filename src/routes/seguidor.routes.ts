@@ -14,6 +14,12 @@ export function SeguidorRoutes() {
     [auth.validar, validarFormatoId.validar],
     controller.criar
   );
+  //DELETAR
+  router.delete(
+    "/:id",
+    [auth.validar, validarFormatoId.validar],
+    controller.deletar
+  );
 
   return router;
 }
