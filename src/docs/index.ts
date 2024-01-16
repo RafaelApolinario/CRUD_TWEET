@@ -1,6 +1,8 @@
 import { badRequest, notFound, securitySchemes, serverError, unauthorized } from './components';
 import { likePath } from './paths/like.path';
+import { seguidorPath } from './paths/seguidor.path';
 import { likeSchema } from './schemas/like.schema';
+import { seguidorSchema } from './schemas/seguidor.schema';
 import { error } from './schemas/error.schema';
 
 const docs = {
@@ -20,8 +22,7 @@ const docs = {
         }
     ],
     paths: {
-        '/usuarios': {},
-        '/tweets': {},
+        '/seguidor': seguidorPath,
         '/likes/:id': likePath,
         // '/replies': {}
     },
@@ -35,7 +36,7 @@ const docs = {
     schemas: {
         error: error,
         like: likeSchema,
-        avalicao: {},
+        seguidor: seguidorSchema,
     }
 }
 

@@ -1,7 +1,7 @@
-export const likePath = {
+export const seguidorPath = {
     post: {
-        tags: ['Like'],
-        summary: 'Endpoint para gerar o like em um tweet de um usuário',
+        tags: ['seguidor'],
+        summary: 'Endpoint para tornar o seguidor de um usuário',
         security: [
             {
                 bearerAuth: []
@@ -9,9 +9,9 @@ export const likePath = {
         ],
         parameters: [
             {
-             name: "id",
+             name: "usuarioId",
              in: "path",
-             description: "ID do Like",
+             description: "ID do usuario",
              required: true,
              schema: {
                type: "string",
@@ -23,13 +23,13 @@ export const likePath = {
             content: {
                 'application/json': {
                     schema: {
-                        required: ['tweetId'],
+                        required: ['seguidorId'],
                         type: "object",
                         properties: {
                             tweetId: {
                                 type: 'string',
                                 format: 'uuid',
-                                summary: 'ID do Tweet curtido'
+                                summary: 'ID do Usuario seguido'
                             }
                         }
                     }
@@ -59,10 +59,10 @@ export const likePath = {
                                 mensagem: {
                                     type: 'string',
                                     summary: 'Mensagem amigável para mostrar ao usuário',
-                                    example: 'Like criado!'
+                                    example: 'seguidor criado!'
                                 },
                                 dados: {
-                                    $ref: '#/schemas/like'
+                                    $ref: '#/schemas/seguidor'
                                 }
                             }
                         }
@@ -81,8 +81,8 @@ export const likePath = {
         }
     },
     put: {
-        tags: ['Like'],
-        summary: 'Endpoint para o like no tweet',
+        tags: ['seguidor'],
+        summary: 'Endpoint para o seguidor no tweet',
         security: [
             {
                 bearerAuth: []
@@ -92,7 +92,7 @@ export const likePath = {
            {
             name: "id",
             in: "path",
-            description: "ID do Like", 
+            description: "ID do seguidor", 
             required: true,
             schema: {
               type: "string",
@@ -125,7 +125,7 @@ export const likePath = {
                                     example: 'Tweet atualizado com sucesso!'
                                 },
                                 dados: {
-                                    $ref: '#/schemas/like'
+                                    $ref: '#/schemas/seguidor'
                                 }
                             },
                             required: ["code", "ok", "mensagem", "dados"],
