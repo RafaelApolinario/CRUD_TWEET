@@ -5,9 +5,9 @@ export class LikeController {
   public async criar(req: Request, res: Response) {
     try {
       const usuarioId = req.params;
-      const { tweetId } = req.body;
+      const { tweetId, isReply } = req.body;
       const service = new LikeService();
-      const response = await service.criar({ tweetId }, usuarioId.id);
+      const response = await service.criar({ tweetId, isReply }, usuarioId.id);
       return res.status(response.code).json(response);
     } catch (error: any) {
       return res.status(500).json({
