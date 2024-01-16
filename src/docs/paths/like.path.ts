@@ -80,7 +80,7 @@ export const likePath = {
             }
         }
     },
-    put: {
+    delete: {
         tags: ['Like'],
         summary: 'Endpoint para o like no tweet',
         security: [
