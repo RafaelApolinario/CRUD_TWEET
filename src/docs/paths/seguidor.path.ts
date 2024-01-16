@@ -49,7 +49,7 @@ export const seguidorPath = {
                                     type: 'integer',
                                     format: 'int32',
                                     summary: 'Status code conforme padrão REST',
-                                    example: 200
+                                    example: 201
                                 },
                                 ok: {
                                     type: 'boolean',
@@ -77,12 +77,12 @@ export const seguidorPath = {
                 500: {
                     $ref: '#/components/serverError'
                 },
-            }
+            },
         }
     },
-    put: {
+    delete: {
         tags: ['seguidor'],
-        summary: 'Endpoint para o seguidor no tweet',
+        summary: 'Endpoint para o seguidor usuario',
         security: [
             {
                 bearerAuth: []

@@ -139,11 +139,7 @@
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -175,30 +171,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,37 +199,51 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Likes as LikesPrisma, Tweets as TweetsPrisma } from "@prisma/client";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Likes as LikesPrisma, Reply as ReplyPrisma } from "@prisma/client";
 import repository from "../database/prisma.connection";
 import { AtualizarTweetDTO, CriarReplyDTO, ResponseDTO } from "../dtos";
-import { Tweet } from "../models";
 import { Like } from "../models/like.model";
+import { Reply } from "../models/reply.model";
 &nbsp;
 export class ReplyService {
   private <span class="fstat-no" title="function not covered" >mapToModel(</span>
-    TweetDB: TweetsPrisma &amp; { likes: LikesPrisma[] | null }
-  ): Tweet {
-    const likesTweet = <span class="cstat-no" title="statement not covered" >TweetDB?.likes</span>
-      ? TweetDB.likes.map(<span class="fstat-no" title="function not covered" >(L</span>ikesDB) =&gt; <span class="cstat-no" title="statement not covered" >new Like(LikesDB.id))</span>
+    ReplyDB: ReplyPrisma &amp; { likes: LikesPrisma[] | null }
+  ): Reply {
+    const likesTweet = <span class="cstat-no" title="statement not covered" >ReplyDB?.likes</span>
+      ? ReplyDB.likes.map(<span class="fstat-no" title="function not covered" >(L</span>ikesDB) =&gt; <span class="cstat-no" title="statement not covered" >new Like(LikesDB.id))</span>
       : undefined;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return new Tweet(TweetDB.id, TweetDB.content, TweetDB.type, likesTweet);</span>
+<span class="cstat-no" title="statement not covered" >    return new Reply(ReplyDB.id, ReplyDB.content, likesTweet);</span>
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >async </span>criar(
     dados: CriarReplyDTO,
     usuarioId: string
   ): Promise&lt;ResponseDTO&gt; {
-    const tweetDB = <span class="cstat-no" title="statement not covered" >await repository.tweets.create({</span>
+    const replyDB = <span class="cstat-no" title="statement not covered" >await repository.reply.create({</span>
       data: {
         content: dados.content,
-        type: dados.type,
-        usuario: { connect: { id: usuarioId } },
-        replies: { connect: { id: dados.tweetId } },
+        tweetsId: dados.tweetId,
+        usuariosId: usuarioId,
       },
       include: {
         likes: true,
-        replies: true,
       },
     });
 &nbsp;
@@ -261,7 +251,7 @@ export class ReplyService {
       code: 201,
       ok: true,
       mensagem: "Reply criado!",
-      dados: this.mapToModel({ ...tweetDB }),
+      dados: this.mapToModel({ ...replyDB }),
     };
   }
 &nbsp;
@@ -269,12 +259,11 @@ export class ReplyService {
     dados: AtualizarTweetDTO,
     idTweet: string
   ): Promise&lt;ResponseDTO&gt; {
-    const tweetAtualizado = <span class="cstat-no" title="statement not covered" >await repository.tweets.update({</span>
+    const replyAtualizado = <span class="cstat-no" title="statement not covered" >await repository.reply.update({</span>
       where: { id: idTweet },
       data: { content: dados.content },
       include: {
         likes: true,
-        replies: true,
       },
     });
 &nbsp;
@@ -282,16 +271,15 @@ export class ReplyService {
       code: 200,
       ok: true,
       mensagem: "Reply atualizado",
-      dados: this.mapToModel(tweetAtualizado),
+      dados: this.mapToModel(replyAtualizado),
     };
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >async </span>deletar(id: string): Promise&lt;ResponseDTO&gt; {
-    const Reply = <span class="cstat-no" title="statement not covered" >await repository.tweets.delete({</span>
+    const reply = <span class="cstat-no" title="statement not covered" >await repository.reply.delete({</span>
       where: { id: id },
       include: {
         likes: true,
-        replies: true,
       },
     });
 &nbsp;
@@ -299,7 +287,7 @@ export class ReplyService {
       code: 200,
       ok: true,
       mensagem: "Reply excluido",
-      dados: this.mapToModel(Reply),
+      dados: this.mapToModel(reply),
     };
   }
 }
@@ -310,7 +298,7 @@ export class ReplyService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-01-12T21:23:43.533Z
+                at 2024-01-16T01:27:56.557Z
             </div>
         <script src="../prettify.js"></script>
         <script>
