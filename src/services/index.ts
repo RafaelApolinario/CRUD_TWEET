@@ -1,3 +1,4 @@
+export * from "./feed.service";
 export * from "./like.service";
 export * from "./reply.service";
 export * from "./seguidor.service";
