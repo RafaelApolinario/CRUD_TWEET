@@ -37,7 +37,7 @@ export class SeguidorService {
     return {
       code: 200,
       ok: true,
-      mensagem: "Like excluido",
+      mensagem: "Seguidor excluido",
       dados: this.mapToModel(seguidorExcluido),
     };
   }
