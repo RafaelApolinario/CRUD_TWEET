@@ -27,9 +27,11 @@ export class FeedService {
     const tweetsFeed: Tweets[] = tweetsUsuario;
 
     seguidoresDB.forEach((seguidor) => {
-      seguidor.tweets.forEach((tweet) => {
-        tweetsFeed.push(tweet);
-      });
+      if(seguidor.tweets){
+        seguidor.tweets.forEach((tweet) => {
+          tweetsFeed.push(tweet);
+        });
+      }
     });
 
     tweetsFeed.sort((a, b) => b.criadoEm.getTime() - a.criadoEm.getTime());

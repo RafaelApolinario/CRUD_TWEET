@@ -10,13 +10,13 @@ describe('Testes unitários para o service de Reply', () => {
 
     test('Deve retornar um objeto de sucesso quando houver inserido o Reply do Tweet', async () => {
         prismaMock.reply.create.mockResolvedValue({
-            likes: undefined,         
+            likes: undefined,
             id: 'any_id',
             content: 'any_content',
             tweetsId: 'any_id',
             usuariosId: 'any_id',
             criadoEm: new Date(),
-            atualizadoEm: new Date() 
+            atualizadoEm: new Date()
         });
         const sut = createSut();
 
@@ -68,12 +68,12 @@ describe('Testes unitários para o service de Reply', () => {
         });
 
         const sut = createSut();
-        const result = await sut.deletar('any_id');
+        const result = await sut.atualizar({ content: 'any_content' }, 'any_id');
 
         expect(result).toBeTruthy();
         expect(result.ok).toBe(true);
         expect(result.code).toBe(200);
-        expect(result.mensagem).toBe('Reply excluido');
+        expect(result.mensagem).toBe('Reply atualizado');
         const ReplyInstance = await result.dados;
 
         expect(ReplyInstance).toBeInstanceOf(Reply);

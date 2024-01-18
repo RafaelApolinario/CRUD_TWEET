@@ -50,25 +50,6 @@ export class UsuarioService {
     };
   }
 
-  private async mapToModel(
-    UsuarioDB: UsuariosPrisma & { tweets: TweetsPrisma[] | null }
-  ): Promise<Usuario> {
-    const tweetsUsuario = UsuarioDB?.tweets
-      ? UsuarioDB.tweets.map(
-          (tweetDB) => new Tweet(tweetDB.id, tweetDB.content, tweetDB.type)
-        )
-      : undefined;
-
-    return new Usuario(
-      UsuarioDB.id,
-      UsuarioDB.nome,
-      UsuarioDB.usuario,
-      UsuarioDB.email,
-      UsuarioDB.senha,
-      tweetsUsuario
-    );
-  }
-
   public async login(dados: LoginDTO): Promise<ResponseDTO> {
     const usuarioEncontrado = await repository.usuarios.findUnique({
       where: {
@@ -85,13 +66,14 @@ export class UsuarioService {
     }
 
     const bcrypt = new BcryptAdapter(envs.BCRYPT_SALT);
-    const hashSenha = bcrypt.compararHash(dados.senha, usuarioEncontrado.senha);
+    const hashSenha = await bcrypt.compararHash(dados.senha, usuarioEncontrado.senha);
 
     if (!hashSenha) {
       return {
         code: 401,
         ok: false,
         mensagem: "Credenciais inválidas",
+        dados: undefined
       };
     }
     const usuario = {
@@ -191,5 +173,24 @@ export class UsuarioService {
       mensagem: "Usuario atualizado",
       dados: this.mapToModel(usuarioAtualizado),
     };
+  }
+
+  private async mapToModel(
+    UsuarioDB: UsuariosPrisma & { tweets: TweetsPrisma[] | null }
+  ): Promise<Usuario> {
+    const tweetsUsuario = UsuarioDB?.tweets
+      ? UsuarioDB.tweets.map(
+          (tweetDB) => new Tweet(tweetDB.id, tweetDB.content, tweetDB.type)
+        )
+      : undefined;
+
+    return new Usuario(
+      UsuarioDB.id,
+      UsuarioDB.nome,
+      UsuarioDB.usuario,
+      UsuarioDB.email,
+      UsuarioDB.senha,
+      tweetsUsuario
+    );
   }
 }
